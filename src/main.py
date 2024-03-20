@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import rotas_auth, rotas_familia, rotas_conta, rotas_renda
+from src.routers import rotas_auth, rotas_familia, rotas_conta, rotas_renda
 
 app = FastAPI()
 

@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Session
 from schemas import schemas
-from infra.sqlalchemy.models import models
+from src.infra.sqlalchemy.models import models
 
 class RepositorioConta():
     def __init__(self, db: Session) -> None:

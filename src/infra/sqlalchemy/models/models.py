@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, Boolean, Float
 from sqlalchemy.orm import relationship
-from infra.sqlalchemy.config.database import Base
+from src.infra.sqlalchemy.config.database import Base
 
 class Familia(Base):
     __tablename__ = 'familia'
