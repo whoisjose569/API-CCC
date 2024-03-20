@@ -1,12 +1,12 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
-from src.infra.sqlalchemy.config.database import get_db, criar_bd
-from src.schemas import schemas
+from infra.sqlalchemy.config.database import get_db, criar_bd
+from schemas import schemas
 from sqlalchemy.orm import Session
-from src.infra.sqlalchemy.repositorios.repositorio_familia import RepositorioFamilia
-from src.infra.sqlalchemy.repositorios.repositorio_conta import RepositorioConta
-from src.infra.sqlalchemy.repositorios.repositorio_renda import RepositorioRendaMensal
-from src.routers.rotas_auth import obter_usuario_logado
+from infra.sqlalchemy.repositorios.repositorio_familia import RepositorioFamilia
+from infra.sqlalchemy.repositorios.repositorio_conta import RepositorioConta
+from infra.sqlalchemy.repositorios.repositorio_renda import RepositorioRendaMensal
+from routers.rotas_auth import obter_usuario_logado
 
 
 criar_bd()
@@ -43,12 +43,19 @@ def listar_contas_pagas(usuario: schemas.Familia = Depends(obter_usuario_logado)
 
 @router.get('/pagar-conta')
 def pagar_conta(conta_id: int, db: Session = Depends(get_db), usuario: schemas.Familia = Depends(obter_usuario_logado)):
-    conta_localizada = RepositorioConta(db).PagarConta(usuario.id, conta_id)
+    conta_localizada = RepositorioConta(db).pagarConta(usuario.id, conta_id)
     if conta_localizada is None:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Conta nao Localizada')
     return {"message": 'Conta Paga'}
 
 @router.get('/listar-renda')
-def listar_renda(id: int, db: Session = Depends(get_db),usuario: schemas.Familia = Depends(obter_usuario_logado)):
+def listar_renda(db: Session = Depends(get_db),usuario: schemas.Familia = Depends(obter_usuario_logado)):
     renda_localizada = RepositorioRendaMensal(db).listarRenda(usuario.id)
     return renda_localizada
+
+@router.delete('/deletar-conta')
+def deletar_conta(conta_id: int, db: Session = Depends(get_db), usuario: schemas.Familia = Depends(obter_usuario_logado)):
+    conta_localizada = RepositorioConta(db).deletarConta(conta_id, usuario.id)
+    if conta_localizada is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail='Conta nao Localizada')
+    return {"message": 'Conta Deletada'}

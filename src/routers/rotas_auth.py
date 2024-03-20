@@ -1,11 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, status
 from typing import List
-from src.infra.sqlalchemy.config.database import get_db, criar_bd
+from infra.sqlalchemy.config.database import get_db, criar_bd
 from schemas import schemas
 from sqlalchemy.orm import Session
-from src.infra.sqlalchemy.repositorios.repositorio_familia import RepositorioFamilia
-from src.infra.providers import hash_provider, token_provider
-from src.routers.auth_utils import obter_usuario_logado
+from infra.sqlalchemy.repositorios.repositorio_familia import RepositorioFamilia
+from infra.providers import hash_provider, token_provider
+from routers.auth_utils import obter_usuario_logado
 
 criar_bd()
 router = APIRouter()

@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from schemas import schemas
-from src.infra.sqlalchemy.models import models
+from infra.sqlalchemy.models import models
+from sqlalchemy import delete
 
 class RepositorioConta():
     def __init__(self, db: Session) -> None:
@@ -29,8 +30,14 @@ class RepositorioConta():
         contas_pagas = self.db.query(models.Conta).filter(models.Conta.familia_id == id, models.Conta.situacao == True).all()
         return contas_pagas
     
-    def PagarConta(self, familia_id: int, conta_id: id):
+    def pagarConta(self, familia_id: int, conta_id: id):
         conta = self.db.query(models.Conta).join(models.Familia, models.Conta.familia_id == models.Familia.id).filter(models.Familia.id == familia_id, models.Conta.id == conta_id).first()
         conta.situacao = True
         self.db.commit()
         return conta
+    
+    def deletarConta(self, familia_id: int, conta_id: id):
+        query = delete(models.Conta).where((models.Conta.familia_id == familia_id) & (models.Conta.id == conta_id))
+        self.db.execute(query)
+        self.db.commit()
+        return query

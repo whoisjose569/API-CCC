@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends
 from typing import List
-from src.infra.sqlalchemy.config.database import get_db, criar_bd
-from src.schemas import schemas
+from infra.sqlalchemy.config.database import get_db, criar_bd
+from schemas import schemas
 from sqlalchemy.orm import Session
-from src.infra.sqlalchemy.repositorios.repositorio_renda import RepositorioRendaMensal
+from infra.sqlalchemy.repositorios.repositorio_renda import RepositorioRendaMensal
 
 
 criar_bd()
